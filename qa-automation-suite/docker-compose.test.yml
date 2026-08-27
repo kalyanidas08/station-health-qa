@@ -6,14 +6,7 @@
 #
 # Added a healthcheck on api so `tests` can wait
 # for it to actually be ready, and the tests service itself.
-#
-# Note on the volumes: path below - Compose resolves relative bind-mount
-# host paths against the *project directory*, which defaults to the
-# directory of the FIRST -f file (service/), NOT the file where this
-# volumes: line lives. --project-directory looked like the fix, but it also
-# changes how build.context is resolved and broke the `tests` image build in
-# this Compose version - so instead the path below is written relative to
-# service/ (the actual default project directory) rather than fighting it.
+
 services:
   api:
     healthcheck:

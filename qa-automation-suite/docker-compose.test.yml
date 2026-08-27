@@ -1,0 +1,39 @@
+# Overlay for service/docker-compose.yml - run together with (from the repo
+# root):
+#   docker compose -f service/docker-compose.yml \
+#     -f qa-automation-suite/docker-compose.test.yml \
+#     up --build --abort-on-container-exit --exit-code-from tests tests
+#
+# Added a healthcheck on api so `tests` can wait
+# for it to actually be ready, and the tests service itself.
+#
+# Note on the volumes: path below - Compose resolves relative bind-mount
+# host paths against the *project directory*, which defaults to the
+# directory of the FIRST -f file (service/), NOT the file where this
+# volumes: line lives. --project-directory looked like the fix, but it also
+# changes how build.context is resolved and broke the `tests` image build in
+# this Compose version - so instead the path below is written relative to
+# service/ (the actual default project directory) rather than fighting it.
+services:
+  api:
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  tests:
+    build:
+      context: ..
+      dockerfile: qa-automation-suite/Dockerfile
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      - E2E_BASE_URL=http://api:8000
+    # Bind-mounted so the HTML report lands directly on the host filesystem
+    # at qa-automation-suite/test-reports/report.html the moment the
+    # container run finishes - no `docker cp` needed to retrieve it.
+    volumes:
+      - ../qa-automation-suite/test-reports:/workspace/qa-automation-suite/test-reports
+    command: pytest -v --html=test-reports/report.html --self-contained-html

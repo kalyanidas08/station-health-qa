@@ -1,0 +1,175 @@
+{
+  "paths": {
+    "/health": {
+      "get": {
+        "status_codes": [
+          "200"
+        ]
+      }
+    },
+    "/metrics/summary": {
+      "get": {
+        "status_codes": [
+          "200"
+        ]
+      }
+    },
+    "/reports": {
+      "post": {
+        "status_codes": [
+          "201",
+          "422"
+        ]
+      }
+    },
+    "/stations": {
+      "get": {
+        "status_codes": [
+          "200"
+        ]
+      }
+    },
+    "/stations/poor-hygiene": {
+      "get": {
+        "status_codes": [
+          "200"
+        ]
+      }
+    },
+    "/stations/{station_id}/status": {
+      "get": {
+        "status_codes": [
+          "200",
+          "422"
+        ]
+      }
+    }
+  },
+  "schemas": {
+    "HTTPValidationError": {
+      "properties": {
+        "detail": "array"
+      },
+      "required": []
+    },
+    "MetricsSummary": {
+      "properties": {
+        "average_latency_ms": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "flagged_count": "integer",
+        "offline_count": "integer",
+        "online_count": "integer",
+        "total_error_count": "integer",
+        "total_stations": "integer"
+      },
+      "required": [
+        "average_latency_ms",
+        "flagged_count",
+        "offline_count",
+        "online_count",
+        "total_error_count",
+        "total_stations"
+      ]
+    },
+    "PoorHygieneStation": {
+      "properties": {
+        "hygiene_score": "number",
+        "latest_timestamp": "string",
+        "station_id": "string"
+      },
+      "required": [
+        "hygiene_score",
+        "latest_timestamp",
+        "station_id"
+      ]
+    },
+    "ReportIn": {
+      "properties": {
+        "connectivity_status": "string",
+        "error_count": "integer",
+        "firmware_version": "string",
+        "latency_ms": "number",
+        "station_id": "string",
+        "timestamp": "string"
+      },
+      "required": [
+        "connectivity_status",
+        "error_count",
+        "firmware_version",
+        "latency_ms",
+        "station_id",
+        "timestamp"
+      ]
+    },
+    "ReportOut": {
+      "properties": {
+        "flagged": "boolean",
+        "hygiene_score": "number",
+        "station_id": "string"
+      },
+      "required": [
+        "flagged",
+        "hygiene_score",
+        "station_id"
+      ]
+    },
+    "StationStatus": {
+      "properties": {
+        "connectivity_status": "string",
+        "error_count": "integer",
+        "firmware_version": "string",
+        "flagged": "boolean",
+        "hygiene_score": "number",
+        "latency_ms": "number",
+        "latest_timestamp": "string",
+        "station_id": "string"
+      },
+      "required": [
+        "connectivity_status",
+        "error_count",
+        "firmware_version",
+        "flagged",
+        "hygiene_score",
+        "latency_ms",
+        "latest_timestamp",
+        "station_id"
+      ]
+    },
+    "StationSummary": {
+      "properties": {
+        "connectivity_status": "string",
+        "flagged": "boolean",
+        "hygiene_score": "number",
+        "latest_timestamp": "string",
+        "station_id": "string"
+      },
+      "required": [
+        "connectivity_status",
+        "flagged",
+        "hygiene_score",
+        "latest_timestamp",
+        "station_id"
+      ]
+    },
+    "ValidationError": {
+      "properties": {
+        "ctx": "object",
+        "input": null,
+        "loc": "array",
+        "msg": "string",
+        "type": "string"
+      },
+      "required": [
+        "loc",
+        "msg",
+        "type"
+      ]
+    }
+  }
+}

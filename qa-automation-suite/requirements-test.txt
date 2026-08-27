@@ -1,0 +1,16 @@
+# App runtime deps needed to import app.* directly for in-process tests.
+# Pinned independently (not `-r ../service/requirements.txt`) and deliberately
+# excludes psycopg2-binary: our fixtures isolate tests on SQLite, and any
+# Postgres-specific behavior is exercised as a black box over HTTP against a
+# docker-compose-started service, never via a direct connection from this env.
+fastapi==0.137.2
+uvicorn[standard]==0.49.0
+sqlalchemy==2.0.51
+pydantic==2.13.4
+
+# Test tooling
+pytest==8.3.5
+httpx==0.28.1
+pytest-cov==6.0.0
+hypothesis==6.165.10
+pytest-html==4.2.0

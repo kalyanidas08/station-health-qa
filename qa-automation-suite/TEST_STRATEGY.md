@@ -13,7 +13,7 @@ Four layers:
 
 **E2E** (`tests/e2e/`, 5 tests) — smoke checks, one full round trip, one concurrency probe against a live instance. The only tier that saw real environment differences: 10 concurrent writes took ~12.6s locally (SQLite) vs. 0.67s for the *entire* suite in Docker (Postgres).
 
-**Left out:** load/stress tooling, dashboard UI tests, and auth tests — out of scope per the assignment, and the service has no auth layer.
+**Left out:** load/stress tooling, dashboard UI tests, and auth tests — the service has no auth layer.
 
 
 ## 2. Tool choices

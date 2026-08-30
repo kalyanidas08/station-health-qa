@@ -47,6 +47,7 @@ Split into two jobs so fast feedback doesn't wait on image builds.
 
 ## 5. Gaps & future work
 
+-  Approach is feature-centric, need more redesigning when considering it in the whole business-flow.
 - **4 confirmed defects are pinned as `xfail(strict=True)`**, not silently accepted: the `MAX(timestamp)` + join-back pattern duplicates a station's entry in `/stations`, `/stations/poor-hygiene`, and `/metrics/summary` on identical timestamps; a `station_id` containing `/` ingests but 404s on read. `strict=True` means a fix flips these to a failing "unexpected pass."
 - `models.py`'s `datetime.utcnow()` default triggers a deprecation warning and will break on a future version — untested.
 - No pagination on `/stations`; untested at scale. A lightweight load test (e.g. sustained `POST /reports` throughput, or `/stations` response time as the table grows) would be the natural next step — worth doing before this service sees real traffic.
